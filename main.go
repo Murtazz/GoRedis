@@ -11,7 +11,7 @@ func main() {
 	fmt.Println("Listening on port :6379")
 
 	// Create a new server
-	l, err := net.Listen("tcp", "127.0.0.1:6379")
+	l, err := net.Listen("tcp", ":6379")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -27,10 +27,9 @@ func main() {
 	defer conn.Close()
 
 	for {
-		buf := make([]byte, 1024)
+		resp := NewResp(conn)
+		value, err := resp.Read()
 
-		// read message from client
-		_, err = conn.Read(buf)
 		if err != nil {
 			if err == io.EOF {
 				break
@@ -39,7 +38,9 @@ func main() {
 			os.Exit(1)
 		}
 
-		// ignore request and send back a PONG
-		conn.Write([]byte("+OK\r\n"))
+		_ = value
+
+		writer := NewWriter(conn)
+		writer.Write(Value{typ: "string", str: "OK"})
 	}
 }
