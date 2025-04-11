@@ -18,7 +18,7 @@ GoRedis is a lightweight Redis-like server implemented in Go. It listens on port
 ### Running Locally
 
 1. Clone the repository:
-   git clone https://github.com/your-username/GoRedis.git
+   git clone https://github.com/Murtazz/GoRedis.git
    cd GoRedis
 
 2. Build and run the server:
